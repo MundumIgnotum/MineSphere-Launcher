@@ -17,8 +17,9 @@ jobs:
       - name: Criar ZIP do launcher
         run: |
           mkdir -p release
-          zip -r "release/MineSphere-Launcher-${GITHUB_REF_NAME}.zip" . \
-            -x '.git/*' 'data/*' 'game/*' 'instances/*' 'runtime/*' 'release/*' 'docs/*'
+          zip -r "release/MineSphere-Launcher.zip" . \
+            -x '.git/*' 'data/*' 'game/*' 'instances/*' 'runtime/*' 'release/*'
+          cp "release/MineSphere-Launcher.zip" "release/MineSphere-Launcher-${GITHUB_REF_NAME}.zip"
       - name: Publicar release
         uses: softprops/action-gh-release@v2
         with:

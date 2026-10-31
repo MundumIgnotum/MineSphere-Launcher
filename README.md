@@ -11,7 +11,7 @@
   </p>
   <p>
     <a href="https://mundumignotum.github.io/MineSphere-Launcher/"><strong>Website</strong></a> ·
-    <a href="https://github.com/MundumIgnotum/MineSphere-Launcher/archive/refs/heads/main.zip"><strong>Download ZIP</strong></a> ·
+    <a href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Launcher.zip"><strong>Download ZIP</strong></a> ·
     <a href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases">Releases</a> ·
     <a href="https://github.com/MundumIgnotum/MineSphere-Launcher/issues">Issues</a>
   </p>
@@ -63,7 +63,7 @@ Não é necessário executar `npm install`: o projeto não tem dependências ext
 
 ## Download e instalação
 
-1. Descarrega o **[ZIP do projeto](https://github.com/MundumIgnotum/MineSphere-Launcher/archive/refs/heads/main.zip)** ou uma versão em **[Releases](https://github.com/MundumIgnotum/MineSphere-Launcher/releases)**.
+1. Descarrega o **[ZIP mais recente](https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Launcher.zip)** ou consulta as **[Releases](https://github.com/MundumIgnotum/MineSphere-Launcher/releases)**.
 2. Extrai para uma pasta com permissão de escrita.
 3. No Windows, faz duplo clique em **`start.bat`**.
 4. Na primeira execução, o launcher procura um Node.js compatível. Se não encontrar, descarrega automaticamente um runtime portátil para `runtime/node/` (cerca de 100 MB, a partir de `nodejs.org`, com verificação SHA-256).
