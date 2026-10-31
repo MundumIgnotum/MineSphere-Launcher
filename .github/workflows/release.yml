@@ -1,0 +1,28 @@
+name: Criar release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Criar ZIP do launcher
+        run: |
+          mkdir -p release
+          zip -r "release/MineSphere-Launcher-${GITHUB_REF_NAME}.zip" . \
+            -x '.git/*' 'data/*' 'game/*' 'instances/*' 'runtime/*' 'release/*' 'docs/*'
+      - name: Publicar release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false

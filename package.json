@@ -1,0 +1,36 @@
+{
+  "name": "minesphere-launcher",
+  "version": "1.0.0",
+  "description": "Launcher local e open source para Minecraft Java Edition.",
+  "main": "server.js",
+  "private": true,
+  "license": "MIT",
+  "author": "MundumIgnotum",
+  "homepage": "https://mundumignotum.github.io/MineSphere-Launcher/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MundumIgnotum/MineSphere-Launcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MundumIgnotum/MineSphere-Launcher/issues"
+  },
+  "keywords": [
+    "minecraft",
+    "launcher",
+    "fabric",
+    "quilt",
+    "forge",
+    "neoforge",
+    "modrinth",
+    "curseforge",
+    "open-source"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js --no-open",
+    "check": "node --check server.js && node --check public/js/app.js && node --check src/util.js && node --check src/zip.js && node --check src/store.js && node --check src/jobs.js && node --check src/mojang.js && node --check src/java.js && node --check src/auth.js && node --check src/skins.js && node --check src/loaders.js && node --check src/launch.js && node --check src/modrinth.js && node --check src/curseforge.js && node --check src/github.js && node --check src/mods.js && node --check src/backups.js && node --check src/modpacks.js && node --check src/instances.js && node --check src/api.js"
+  }
+}

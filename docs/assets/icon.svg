@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="MineSphere">
+  <defs>
+    <linearGradient id="outline" x1="16" y1="12" x2="112" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5ff0b8"/>
+      <stop offset=".55" stop-color="#39d99f"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="top" x1="64" y1="10" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8ff7cf" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#39d99f" stop-opacity=".12"/>
+    </linearGradient>
+    <linearGradient id="left" x1="16" y1="37" x2="64" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#39d99f" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#0b1220" stop-opacity=".05"/>
+    </linearGradient>
+    <linearGradient id="right" x1="112" y1="37" x2="64" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38bdf8" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#0b1220" stop-opacity=".05"/>
+    </linearGradient>
+    <radialGradient id="sphere" cx="0" cy="0" r="1" gradientTransform="translate(57 55) rotate(48) scale(30)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#eafff7"/>
+      <stop offset=".28" stop-color="#7df3c9"/>
+      <stop offset=".7" stop-color="#27b98b"/>
+      <stop offset="1" stop-color="#0d6b57"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g filter="url(#glow)">
+    <path d="M64 8 113 36v56L64 120 15 92V36Z" fill="#081019" stroke="url(#outline)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M64 8 113 36 64 64 15 36Z" fill="url(#top)"/>
+    <path d="M15 36 64 64v56L15 92Z" fill="url(#left)"/>
+    <path d="M113 36 64 64v56l49-28Z" fill="url(#right)"/>
+    <path d="M64 8v56M15 36l49 28 49-28" fill="none" stroke="url(#outline)" stroke-width="3" stroke-linejoin="round" opacity=".9"/>
+  </g>
+
+  <circle cx="64" cy="62" r="22" fill="url(#sphere)"/>
+  <circle cx="57" cy="54" r="7" fill="#fff" opacity=".28"/>
+  <ellipse cx="64" cy="62" rx="37" ry="14" fill="none" stroke="#8ff7cf" stroke-width="3" opacity=".55" transform="rotate(-24 64 62)"/>
+  <circle cx="96" cy="48" r="4" fill="#b9ffe8"/>
+</svg>

@@ -1,0 +1,38 @@
+# Dados locais e ficheiros grandes (nunca publicar)
+/data/
+/game/
+/instances/
+/runtime/
+/release/
+
+# Logs e temporários
+*.log
+*.tmp
+*.temp
+*.download
+*.part
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Ambiente e segredos
+.env
+.env.*
+!.env.example
+
+# Sistemas operativos e editores
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Builds locais
+/dist/
+/build/
