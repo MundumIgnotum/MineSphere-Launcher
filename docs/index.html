@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#a3e635">
   <title>MineSphere Launcher — launcher open source para Minecraft Java</title>
-  <meta name="description" content="MineSphere Launcher é um launcher local e open source para Minecraft Java Edition. Contas, skins, loaders, mods, modpacks, backups e Java automático, sem instalar Node.js.">
+  <meta name="description" content="MineSphere Launcher é um launcher local e open source para Minecraft Java Edition, em app desktop ou Web App. Contas, skins, loaders, mods, modpacks, backups e Java automático.">
   <link rel="canonical" href="https://mundumignotum.github.io/MineSphere-Launcher/">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
@@ -14,7 +14,7 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_PT">
   <meta property="og:title" content="MineSphere Launcher">
-  <meta property="og:description" content="Launcher local e open source para Minecraft Java Edition. Sem instalar Node.js.">
+  <meta property="og:description" content="Launcher local e open source para Minecraft Java Edition. App desktop com janela própria ou Web App no browser.">
   <meta property="og:url" content="https://mundumignotum.github.io/MineSphere-Launcher/">
   <meta property="og:image" content="https://mundumignotum.github.io/MineSphere-Launcher/assets/screenshots/home.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -69,7 +69,7 @@
         <div class="hero-copy">
           <p class="eyebrow"><span class="status-dot"></span> Open Source · Windows · Minecraft Java</p>
           <h1>O teu Minecraft,<br><span class="gradient-text">num só lugar.</span></h1>
-          <p class="hero-lead">Contas, skins, loaders, mods, modpacks, backups e Java automático. Um launcher local, rápido e open source — <strong>sem instalar Node.js</strong>.</p>
+          <p class="hero-lead">Contas, skins, loaders, mods, modpacks, backups e Java automático. App desktop com janela própria ou Web App no browser — local, rápido e open source, <strong>sem instalar Node.js</strong>.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#download">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
@@ -80,7 +80,7 @@
               Ver no GitHub
             </a>
           </div>
-          <p class="hero-note">Grátis, MIT e feito com Node.js puro. Não afiliado com a Microsoft ou a Mojang.</p>
+          <p class="hero-note">Grátis, MIT e feito com Node.js puro, WinForms e WebView2. Não afiliado com a Microsoft ou a Mojang.</p>
           <dl class="hero-stats">
             <div><dt>5</dt><dd>loaders</dd></div>
             <div><dt>100%</dt><dd>local</dd></div>
@@ -222,12 +222,12 @@
       <div class="shell start-grid">
         <div>
           <p class="eyebrow">Começar</p>
-          <h2>Do download ao jogo em quatro passos.</h2>
-          <p class="section-copy">O MineSphere foi feito para funcionar sem instalação complicada. Descarrega, extrai e abre o <code>start.bat</code>.</p>
+          <h2>Escolhe a edição e joga em quatro passos.</h2>
+          <p class="section-copy">Instala a app com janela própria, leva a versão portátil numa pen drive ou usa a Web App no browser. Todas partilham contas, instalações, skins e definições.</p>
           <ol class="steps">
-            <li><span>01</span><div><strong>Descarrega o ZIP</strong><p>O código-fonte completo, incluindo o <code>start.bat</code> e as ferramentas.</p></div></li>
-            <li><span>02</span><div><strong>Extrai para uma pasta</strong><p>Podes usar qualquer pasta, desde que tenhas permissão de escrita.</p></div></li>
-            <li><span>03</span><div><strong>Abre <code>start.bat</code></strong><p>Na primeira vez, o launcher descarrega um runtime Node.js portátil e verifica o SHA-256.</p></div></li>
+            <li><span>01</span><div><strong>Escolhe a edição</strong><p>Instalador, ZIP portátil ou Web App. As edições App já incluem o Node.js.</p></div></li>
+            <li><span>02</span><div><strong>Instala ou extrai</strong><p>O instalador cria atalhos em segurança; a versão portátil guarda tudo na própria pasta.</p></div></li>
+            <li><span>03</span><div><strong>Abre o MineSphere</strong><p>Na Web App, o <code>start.bat</code> descarrega o Node.js portátil na primeira execução.</p></div></li>
             <li><span>04</span><div><strong>Adiciona a conta e joga</strong><p>Escolhe Microsoft ou offline, cria uma instalação e prime Jogar.</p></div></li>
           </ol>
         </div>
@@ -235,20 +235,22 @@
           <div class="download-icon">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
           </div>
-          <h3>Download</h3>
-          <p>Versão open source para Windows 10/11. Sem instalador, sem Node.js manual e sem dependências externas.</p>
-          <a class="button button-primary button-block" href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Launcher.zip" target="_blank" rel="noreferrer">
+          <h3>App desktop ou Web App</h3>
+          <p><strong>App desktop</strong> com janela própria, Node.js e WebView2. Ou a <strong>Web App</strong>, sem instalação.</p>
+          <a class="button button-primary button-block" href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Setup.exe" target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
-            Descarregar ZIP
+            Descarregar instalador
           </a>
+          <a class="button button-ghost button-block" href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Portable.zip" target="_blank" rel="noreferrer">App portátil (.zip)</a>
+          <a class="button button-ghost button-block" href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Web.zip" target="_blank" rel="noreferrer">Web App (.zip)</a>
           <a class="button button-ghost button-block" href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases" target="_blank" rel="noreferrer">Ver releases</a>
           <ul class="download-facts">
             <li><span>✓</span> Licença MIT</li>
-            <li><span>✓</span> Código aberto no GitHub</li>
-            <li><span>✓</span> Node.js incluído na primeira execução</li>
+            <li><span>✓</span> Node.js incluído nas edições App</li>
+            <li><span>✓</span> Sem browser externo nas edições App</li>
             <li><span>✓</span> Dados guardados apenas no teu PC</li>
           </ul>
-          <p class="download-note">Requisitos: Windows 10/11, ligação à Internet e uma conta Minecraft legítima.</p>
+          <p class="download-note">Requisitos: Windows 10/11 x64, WebView2 nas edições App, ligação à Internet e uma conta Minecraft legítima.</p>
         </aside>
       </div>
     </section>

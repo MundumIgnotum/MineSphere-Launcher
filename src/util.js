@@ -5,8 +5,9 @@ const fsp = fs.promises;
 const path = require('path');
 const crypto = require('crypto');
 const { once } = require('events');
+const { VERSION } = require('./version');
 
-const USER_AGENT = 'MineSphereLauncher/1.0.0 (MineSphere; +https://localhost)';
+const USER_AGENT = `MineSphereLauncher/${VERSION} (MineSphere; +https://localhost)`;
 const IS_WINDOWS = process.platform === 'win32';
 const OS_NAME = process.platform === 'win32' ? 'windows' : process.platform === 'darwin' ? 'osx' : 'linux';
 const ARCH_NAME = process.arch === 'x64' ? 'x86_64' : process.arch === 'ia32' ? 'x86' : process.arch;

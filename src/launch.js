@@ -4,6 +4,7 @@ const fs = require('fs');
 const fsp = fs.promises;
 const path = require('path');
 const { spawn } = require('child_process');
+const { VERSION } = require('./version');
 const {
   readJson,
   fileExists,
@@ -49,6 +50,16 @@ const { getSettings } = require('./store');
 
 const running = new Map();
 
+function libraryKey(lib) {
+  const name = String(lib?.name || '');
+  const at = name.lastIndexOf('@');
+  const coordinate = at === -1 ? name : name.slice(0, at);
+  const extension = at === -1 ? 'jar' : name.slice(at + 1) || 'jar';
+  const parts = coordinate.split(':');
+  if (parts.length < 3) return name;
+  return `${parts[0]}:${parts[1]}:${parts[3] || ''}@${extension}`;
+}
+
 function mergeVersion(id) {
   const chain = getVersionChain(id);
   const ordered = [...chain].reverse();
@@ -84,7 +95,9 @@ function mergeVersion(id) {
     }
     for (const lib of json.libraries || []) {
       if (!lib || !lib.name) continue;
-      libraryMap.set(lib.name, lib);
+      // Child versions override the same group:artifact:classifier from their
+      // parent. This is how Forge 1.7.10 replaces Guava 15 with Guava 17.
+      libraryMap.set(libraryKey(lib), lib);
     }
   }
   merged.libraries = [...libraryMap.values()];
@@ -311,7 +324,7 @@ async function prepareLaunch(instance, account, job) {
     user_properties: '{}',
     natives_directory: nativesDir,
     launcher_name: 'MineSphere',
-    launcher_version: '1.0.0',
+    launcher_version: VERSION,
     classpath,
     classpath_separator: path.delimiter,
     library_directory: LIBRARIES,
@@ -342,7 +355,7 @@ async function prepareLaunch(instance, account, job) {
     jvmArgs.push('-Dminecraft.launcher.brand=MineSphere');
   }
   if (!jvmArgs.some((arg) => arg.startsWith('-Dminecraft.launcher.version='))) {
-    jvmArgs.push('-Dminecraft.launcher.version=1.0.0');
+    jvmArgs.push(`-Dminecraft.launcher.version=${VERSION}`);
   }
   if (!jvmArgs.some((arg) => arg.startsWith('-Dlog4j2.formatMsgNoLookups='))) {
     jvmArgs.push('-Dlog4j2.formatMsgNoLookups=true');

@@ -180,9 +180,18 @@ function getLibraryArtifact(lib) {
       size: artifact.size,
     };
   }
-  if (lib.name && lib.url) {
+  if (lib.name) {
+    // Metadata without a main artifact (for example old native-only entries)
+    // must not fall back to the default repository; they only have classifiers.
+    if (!lib.url && lib.downloads && !lib.downloads.artifact) return null;
     const mavenPath = mavenToPath(lib.name);
-    const base = String(lib.url).endsWith('/') ? lib.url : `${lib.url}/`;
+    // The launcher spec defaults to Mojang's library repository when url is absent.
+    // Old Forge profiles rely on this for launchwrapper, ASM and other base libraries.
+    const base = lib.url
+      ? String(lib.url).endsWith('/')
+        ? String(lib.url)
+        : `${lib.url}/`
+      : 'https://libraries.minecraft.net/';
     return {
       url: `${base}${mavenPath}`,
       path: mavenPath,

@@ -6,6 +6,7 @@ const { SKINS } = require('./paths');
 const { ensureDir, fileExists } = require('./util');
 const { getAccount, getInstallations, upsertAccount } = require('./store');
 const { ensureFreshAccount } = require('./auth');
+const { VERSION } = require('./version');
 
 const MC_SKIN_URL = 'https://api.minecraftservices.com/minecraft/profile/skins';
 const MC_PROFILE_URL = 'https://api.minecraftservices.com/minecraft/profile';
@@ -149,7 +150,7 @@ async function fetchProfile(accessToken) {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',
-      'User-Agent': 'MineSphereLauncher/1.0.0',
+      'User-Agent': `MineSphereLauncher/${VERSION}`,
     },
     signal: AbortSignal.timeout(30000),
   });
@@ -173,7 +174,7 @@ async function uploadOfficial(accountId, buffer, options = {}) {
     headers: {
       Authorization: `Bearer ${fresh.accessToken}`,
       Accept: 'application/json',
-      'User-Agent': 'MineSphereLauncher/1.0.0',
+      'User-Agent': `MineSphereLauncher/${VERSION}`,
     },
     body: form,
     signal: AbortSignal.timeout(60000),

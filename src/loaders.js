@@ -15,6 +15,7 @@ const {
   downloadMany,
   randomId,
   sleep,
+  mavenToPath,
 } = require('./util');
 const {
   GAME,
@@ -30,6 +31,7 @@ const {
 } = require('./mojang');
 const { pickJava, inferJavaMajor } = require('./java');
 const { getSettings } = require('./store');
+const { readZip, entryData } = require('./zip');
 
 const mavenCache = new Map();
 const MAVEN_CACHE_MS = 10 * 60 * 1000;
@@ -328,6 +330,102 @@ function runProcess(command, args, options = {}) {
   });
 }
 
+function isLegacyForge(mcVersion) {
+  const match = String(mcVersion || '').match(/^1\.(\d+)/);
+  return Boolean(match && Number(match[1]) <= 7);
+}
+
+async function installLegacyForge(instance, job, options, fullVersion, installerUrl) {
+  const mcVersion = instance.version;
+  const work = path.join(TEMP, `forge-${randomId(4)}`);
+  const installerPath = path.join(work, 'installer.jar');
+  ensureDir(work);
+  try {
+    job?.setStage('Forge', `A descarregar instalador ${fullVersion}...`);
+    await downloadFile(
+      { url: installerUrl, dest: installerPath, label: 'Instalador Forge' },
+      {
+        timeout: 120000,
+        onBytes: (bytes) => job?.addBytes(bytes),
+        onTotal: (total) => job?.setBytesTotal(total),
+      },
+    );
+
+    job?.setStage('Forge', 'A ler o perfil do Forge antigo...');
+    const buffer = await fsp.readFile(installerPath);
+    const entries = readZip(buffer);
+    const profileEntry = entries.find(
+      (entry) => !entry.isDirectory && /(^|\/)install_profile\.json$/i.test(entry.name),
+    );
+    if (!profileEntry) throw new Error('O instalador do Forge não contém install_profile.json.');
+
+    let profile;
+    try {
+      profile = JSON.parse(entryData(buffer, profileEntry).toString('utf8'));
+    } catch (error) {
+      throw new Error(`Perfil do Forge inválido: ${error.message}`);
+    }
+
+    const versionInfo = profile?.versionInfo || profile?.versioninfo;
+    const install = profile?.install || {};
+    if (!versionInfo || typeof versionInfo !== 'object') {
+      throw new Error('O instalador do Forge não inclui a definição da versão do cliente.');
+    }
+    const versionId = String(install.target || versionInfo.id || '').trim();
+    if (!versionId) throw new Error('O perfil do Forge não indica o identificador da versão.');
+    versionInfo.id = versionId;
+    if (!versionInfo.inheritsFrom) versionInfo.inheritsFrom = mcVersion;
+    if (!versionInfo.jar) versionInfo.jar = mcVersion;
+
+    const containedFile = String(install.filePath || '').replace(/\\/g, '/').trim();
+    const forgeCoordinate = String(install.path || `net.minecraftforge:forge:${versionId}`).trim();
+    if (containedFile) {
+      const wanted = path.basename(containedFile);
+      const universalEntry = entries.find(
+        (entry) =>
+          !entry.isDirectory &&
+          (entry.name === containedFile ||
+            entry.name.endsWith(`/${containedFile}`) ||
+            path.basename(entry.name) === wanted),
+      );
+      if (!universalEntry) {
+        throw new Error(`O ficheiro ${containedFile} não existe no instalador do Forge.`);
+      }
+      const destination = path.join(LIBRARIES, mavenToPath(forgeCoordinate));
+      job?.setStage('Forge', 'A instalar o Forge universal...');
+      ensureDir(path.dirname(destination));
+      await fsp.writeFile(destination, entryData(buffer, universalEntry));
+    }
+
+    if (!Array.isArray(versionInfo.libraries)) versionInfo.libraries = [];
+    if (!versionInfo.libraries.some((lib) => String(lib?.name || '') === forgeCoordinate)) {
+      versionInfo.libraries.unshift({
+        name: forgeCoordinate,
+        url: 'https://maven.minecraftforge.net/',
+      });
+    }
+
+    const dir = path.join(VERSIONS, versionId);
+    ensureDir(dir);
+    writeJson(path.join(dir, `${versionId}.json`), versionInfo);
+
+    job?.setStage('Forge', 'A descarregar bibliotecas do Forge...');
+    await ensureLibraries(versionInfo, job);
+    job?.setStage('Forge', `Instalado: ${versionId}`);
+    return {
+      versionId,
+      loaderVersion: fullVersion,
+      profile: versionInfo,
+    };
+  } finally {
+    try {
+      fs.rmSync(work, { recursive: true, force: true });
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
 async function installForgeLike(instance, job, options = {}) {
   const mcVersion = instance.version;
   const type = instance.loader.type;
@@ -349,6 +447,12 @@ async function installForgeLike(instance, job, options = {}) {
   } else {
     if (!String(fullVersion).startsWith(`${mcVersion}-`)) fullVersion = `${mcVersion}-${fullVersion}`;
     installerUrl = `https://maven.minecraftforge.net/net/minecraftforge/forge/${fullVersion}/forge-${fullVersion}-installer.jar`;
+  }
+
+  // Forge installers for 1.7.10 and older do not support --installClient.
+  // They ship install_profile.json and the universal jar, so install them directly.
+  if (!isNeo && isLegacyForge(mcVersion)) {
+    return installLegacyForge(instance, job, options, fullVersion, installerUrl);
   }
 
   const vanilla = await ensureVersionJson(mcVersion);

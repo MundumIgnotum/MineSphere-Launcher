@@ -10,20 +10,28 @@ permissions:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Criar ZIP do launcher
-        run: |
-          mkdir -p release
-          zip -r "release/MineSphere-Launcher.zip" . \
-            -x '.git/*' 'data/*' 'game/*' 'instances/*' 'runtime/*' 'release/*'
-          cp "release/MineSphere-Launcher.zip" "release/MineSphere-Launcher-${GITHUB_REF_NAME}.zip"
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Verificar sintaxe
+        run: npm run check
+      - name: Construir as edições
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\build-release.ps1
       - name: Publicar release
         uses: softprops/action-gh-release@v2
         with:
-          files: release/*.zip
+          files: |
+            dist/MineSphere-Setup.exe
+            dist/MineSphere-Portable.zip
+            dist/MineSphere-Web.zip
+            dist/MineSphere-Launcher.zip
+            dist/SHA256SUMS.txt
           generate_release_notes: true
           draft: false
           prerelease: false

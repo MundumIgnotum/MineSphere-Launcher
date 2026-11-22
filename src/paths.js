@@ -3,12 +3,15 @@
 const path = require('path');
 const fs = require('fs');
 
-const ROOT = path.resolve(__dirname, '..');
+const APP_ROOT = path.resolve(__dirname, '..');
+// The installed desktop app keeps user data outside Program Files. The portable
+// build (and the web edition) leave MINESPHERE_HOME unset and use APP_ROOT.
+const ROOT = process.env.MINESPHERE_HOME ? path.resolve(process.env.MINESPHERE_HOME) : APP_ROOT;
 const DATA = path.join(ROOT, 'data');
 const GAME = path.join(ROOT, 'game');
 const INSTANCES = path.join(ROOT, 'instances');
 const RUNTIME = path.join(ROOT, 'runtime');
-const PUBLIC = path.join(ROOT, 'public');
+const PUBLIC = path.join(APP_ROOT, 'public');
 const ASSETS = path.join(PUBLIC, 'assets');
 
 const LIBRARIES = path.join(GAME, 'libraries');
@@ -39,6 +42,7 @@ function instanceDir(id) {
 }
 
 module.exports = {
+  APP_ROOT,
   ROOT,
   DATA,
   GAME,

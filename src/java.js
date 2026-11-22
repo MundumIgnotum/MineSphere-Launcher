@@ -171,15 +171,29 @@ async function downloadJavaUnlocked(numeric, job) {
       await downloadFile(
         { url, dest: zipPath, label: `Java ${numeric}` },
         {
-          timeout: 180000,
+          timeout: 600000,
           onBytes: (bytes) => job?.addBytes(bytes),
           onTotal: (total) => job?.setBytesTotal(total),
         },
       );
+      // A CDN/proxy can return an HTML/XML error page with status 200.
+      // Check the ZIP signature before trying to extract it.
+      const handle = await fsp.open(zipPath, 'r');
+      let signature = Buffer.alloc(0);
+      try {
+        signature = Buffer.alloc(4);
+        await handle.read(signature, 0, 4, 0);
+      } finally {
+        await handle.close();
+      }
+      if (signature.toString('hex') !== '504b0304') {
+        throw new Error('O download não devolveu um ficheiro ZIP válido.');
+      }
       lastError = null;
       break;
     } catch (error) {
       lastError = error;
+      job?.warn?.(`Java ${numeric}: ${error.message}`);
       try {
         fs.rmSync(zipPath, { force: true });
       } catch {

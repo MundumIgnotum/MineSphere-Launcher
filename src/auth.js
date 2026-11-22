@@ -1,6 +1,7 @@
 'use strict';
 
 const { postForm, postJson, fetchJson, sleep, normalizeUuid, randomId, offlineUuid } = require('./util');
+const { VERSION } = require('./version');
 const {
   getSettings,
   getAccount,
@@ -134,7 +135,7 @@ async function authenticateMsa(msAccessToken, refreshToken, expiresIn, previous 
     headers: {
       Authorization: `Bearer ${mcLogin.data.access_token}`,
       Accept: 'application/json',
-      'User-Agent': 'MineSphereLauncher/1.0.0',
+      'User-Agent': `MineSphereLauncher/${VERSION}`,
     },
     signal: AbortSignal.timeout(30000),
   });

@@ -5,9 +5,11 @@ const fsp = fs.promises;
 const path = require('path');
 const { URL } = require('url');
 const {
+  APP_ROOT,
   PUBLIC,
   DATA,
   GAME,
+  INSTANCES,
   ROOT,
 } = require('./paths');
 const {
@@ -36,6 +38,7 @@ const mods = require('./mods');
 const modpacks = require('./modpacks');
 const backups = require('./backups');
 const launch = require('./launch');
+const { VERSION } = require('./version');
 const modrinth = require('./modrinth');
 const curseforge = require('./curseforge');
 const github = require('./github');
@@ -52,7 +55,6 @@ const {
 const { getZipEntry } = require('./zip');
 const { createDirs, LOADER_META } = instances;
 
-const VERSION = '1.0.0';
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
@@ -737,7 +739,7 @@ async function handleApi(req, res, url) {
         loader: { type: loaderType, version: loaderVersion },
         versionId: version,
         status: 'installing',
-        gameDir: path.join(ROOT, 'instances', id),
+        gameDir: path.join(INSTANCES, id),
       });
       createDirs(record);
       const job = jobManager.run('import-zip', `Importar ${record.name}`, async (job) =>
@@ -824,6 +826,7 @@ async function handleApi(req, res, url) {
       platform: process.platform,
       arch: process.arch,
       root: ROOT,
+      appRoot: APP_ROOT,
       data: DATA,
       game: GAME,
       java: java.getJavaStatus(),

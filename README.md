@@ -11,7 +11,8 @@
   </p>
   <p>
     <a href="https://mundumignotum.github.io/MineSphere-Launcher/"><strong>Website</strong></a> ·
-    <a href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Launcher.zip"><strong>Download ZIP</strong></a> ·
+    <a href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Setup.exe"><strong>Descarregar app</strong></a> ·
+    <a href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Portable.zip">Portátil</a> ·
     <a href="https://github.com/MundumIgnotum/MineSphere-Launcher/releases">Releases</a> ·
     <a href="https://github.com/MundumIgnotum/MineSphere-Launcher/issues">Issues</a>
   </p>
@@ -24,13 +25,14 @@
 
 ## O que é
 
-O **MineSphere Launcher** é uma aplicação local, feita em **Node.js puro e sem dependências externas**, para gerir e iniciar o Minecraft Java Edition. A interface corre no browser, mas o servidor escuta apenas em `127.0.0.1`; os teus dados ficam no teu computador.
+O **MineSphere Launcher** é uma aplicação local, feita em **Node.js puro e sem dependências externas**, para gerir e iniciar o Minecraft Java Edition. A interface corre numa janela desktop própria (WebView2) ou no browser, conforme a edição, mas o servidor escuta apenas em `127.0.0.1`; os teus dados ficam no teu computador.
 
 O launcher reúne contas Microsoft e offline, skins, todas as versões do manifesto oficial, Fabric, Quilt, Forge, NeoForge, mods, modpacks, resource packs, shaders, datapacks, backups, capturas e Java automático.
 
 ## Destaques
 
-- **Sem instalar Node.js:** no Windows, o `start.bat` descarrega um runtime portátil na primeira execução, com verificação SHA-256.
+- **Três edições:** app instalada, app portátil e Web App, com as mesmas contas, instalações, skins e funcionalidades.
+- **Sem instalar Node.js:** as edições App já incluem o runtime; a Web App descarrega-o na primeira execução, com verificação SHA-256.
 - **Contas Microsoft e offline:** login por device code e perfis locais com UUID determinístico.
 - **Skins:** envio oficial para contas Microsoft e skins locais para contas offline, com sincronização opcional para CustomSkinLoader.
 - **Cinco loaders:** Vanilla, Fabric, Quilt, Forge e NeoForge.
@@ -53,23 +55,37 @@ O website do projeto está em **[mundumignotum.github.io/MineSphere-Launcher](ht
 
 ## Requisitos
 
-- **Windows 10/11** para a experiência completa com `start.bat` e backups de mundos via PowerShell.
-- **Ligação à Internet** para descarregar versões, bibliotecas, loaders, conteúdo e o runtime Node.js inicial.
+- **Windows 10/11 x64** para as edições App. A Web App também corre noutros sistemas com Node.js 18.17 ou superior.
+- **Microsoft Edge WebView2 Runtime** nas edições App. Está incluído no Windows 11 e na maioria dos Windows 10 atualizados; o instalador abre a página oficial se faltar.
+- **Ligação à Internet** para descarregar versões, bibliotecas, loaders, conteúdo e Java.
 - **Conta Minecraft legítima** para jogar online e para o login Microsoft.
-- Cerca de **100 MB livres** para o runtime Node.js portátil, na primeira execução no Windows.
-- Node.js **18.17 ou superior** apenas se quiseres arrancar manualmente noutro sistema ou sem o `start.bat`.
+- Cerca de **150 MB** para a app instalada ou portátil, e **100 MB adicionais** na Web App na primeira execução.
 
 Não é necessário executar `npm install`: o projeto não tem dependências externas.
 
 ## Download e instalação
 
-1. Descarrega o **[ZIP mais recente](https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Launcher.zip)** ou consulta as **[Releases](https://github.com/MundumIgnotum/MineSphere-Launcher/releases)**.
-2. Extrai para uma pasta com permissão de escrita.
-3. No Windows, faz duplo clique em **`start.bat`**.
-4. Na primeira execução, o launcher procura um Node.js compatível. Se não encontrar, descarrega automaticamente um runtime portátil para `runtime/node/` (cerca de 100 MB, a partir de `nodejs.org`, com verificação SHA-256).
-5. Adiciona uma conta, cria uma instalação e prime **Jogar**.
+| Edição | Ficheiro | Como instalar |
+| --- | --- | --- |
+| **App instalada** | `MineSphere-Setup.exe` | Executa o instalador. Cria atalhos e registra a desinstalação. Dados em `%LOCALAPPDATA%\MineSphere`. |
+| **App portátil** | `MineSphere-Portable.zip` | Extrai para qualquer pasta e abre `MineSphere.exe`. Os dados ficam na própria pasta. |
+| **Web App** | `MineSphere-Web.zip` | Extrai para uma pasta com permissão de escrita e abre `start.bat`. |
 
-Para arrancar sem abrir o browser:
+Descarrega a versão mais recente nas **[Releases](https://github.com/MundumIgnotum/MineSphere-Launcher/releases)**:
+
+- [Instalador — `MineSphere-Setup.exe`](https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Setup.exe)
+- [App portátil — `MineSphere-Portable.zip`](https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Portable.zip)
+- [Web App — `MineSphere-Web.zip`](https://github.com/MundumIgnotum/MineSphere-Launcher/releases/latest/download/MineSphere-Web.zip)
+
+Depois de abrir a aplicação:
+
+1. Adiciona uma conta Microsoft ou offline.
+2. Cria uma instalação e escolhe a versão e o loader.
+3. Prime **Jogar**.
+
+As edições App abrem a interface numa janela WinForms com WebView2, sem browser externo. A Web App abre no Edge/Chrome em modo aplicação. Todos os dados ficam no teu computador.
+
+Na Web App, para arrancar sem abrir o browser:
 
 ```powershell
 .\start.bat --no-open
@@ -88,7 +104,7 @@ Se já tiveres Node.js 18.17+:
 node server.js
 ```
 
-O servidor escuta apenas em `127.0.0.1` e abre a interface numa janela do Edge/Chrome em modo aplicação. Mantém a janela do terminal aberta enquanto usares o launcher. Fecha-a ou prime `Ctrl+C` para terminar.
+O servidor escuta apenas em `127.0.0.1`. Mantém a janela do terminal aberta enquanto usares a Web App; fecha-a ou prime `Ctrl+C` para terminar. As edições App gerem o servidor automaticamente.
 
 ## Contas
 
@@ -162,13 +178,15 @@ A pesquisa e instalação pela CurseForge requer uma **API key** gratuita. Obté
 server.js              servidor HTTP local
 src/                   backend Node.js (contas, instâncias, loaders, mods, backups, API)
 public/                interface web (HTML, CSS e JavaScript)
-tools/ensure-node.ps1  download e verificação do Node.js portátil
+desktop/               host WinForms/WebView2, instalador e desinstalador (C#)
+tools/                 build das edições e download do Node.js portátil
 docs/                  website estático para GitHub Pages
 data/                  definições, contas, skins e instalações (ignorado pelo Git)
 game/                  versões, bibliotecas e assets partilhados (ignorado pelo Git)
 instances/<id>/        ficheiros de cada instalação (ignorado pelo Git)
 runtime/java/<major>/  Java descarregado pelo launcher (ignorado pelo Git)
 runtime/node/          Node.js portátil descarregado pelo launcher (ignorado pelo Git)
+dist/                  instalador, ZIP portátil e ZIP web gerados (ignorado pelo Git)
 ```
 
 Os backups ficam em `instances/<id>/backups/`. As capturas ficam em `instances/<id>/screenshots/`.
@@ -203,6 +221,15 @@ Ou, se tiveres npm disponível:
 ```powershell
 npm run check
 ```
+
+Para gerar as três edições a partir do código (Windows com .NET Framework e PowerShell):
+
+```powershell
+npm run build          # MineSphere-Web.zip, instalador, portátil e SHA256SUMS.txt em dist/
+npm run build:desktop  # apenas a app, o portátil e o instalador
+```
+
+O build descarrega o WebView2 SDK e o Node.js oficial, verifica o SHA-256 do Node.js e compila o host, o instalador e o desinstalador com o `csc.exe` do .NET Framework. Não é necessário Visual Studio.
 
 ## Website
 
